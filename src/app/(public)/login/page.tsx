@@ -165,7 +165,7 @@ export default function LoginPage() {
                 size="sm"
                 className="text-[10px] border-green-200 hover:bg-green-50 text-green-600 font-bold px-1"
                 onClick={() => {
-                  form.setValue("email", "gardener@mail.com");
+                  form.setValue("email", "gardener@gmail.com");
                   form.setValue("password", "Gardener@1234");
                 }}
               >
