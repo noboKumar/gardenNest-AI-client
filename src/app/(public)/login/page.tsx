@@ -139,6 +139,52 @@ export default function LoginPage() {
             </form>
           </Form>
 
+          <div className="space-y-4">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground font-bold">Demo Logins</span>
+              </div>
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              <Button 
+                variant="outline" 
+                size="sm"
+                className="text-[10px] border-blue-200 hover:bg-blue-50 text-blue-600 font-bold px-1"
+                onClick={() => {
+                  form.setValue("email", "visitor@mail.com");
+                  form.setValue("password", "Visitor@mail.com1234");
+                }}
+              >
+                Visitor
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm"
+                className="text-[10px] border-green-200 hover:bg-green-50 text-green-600 font-bold px-1"
+                onClick={() => {
+                  form.setValue("email", "gardener@mail.com");
+                  form.setValue("password", "Gardener@mail.com1234");
+                }}
+              >
+                Gardener
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm"
+                className="text-[10px] border-purple-200 hover:bg-purple-50 text-purple-600 font-bold px-1"
+                onClick={() => {
+                  form.setValue("email", "admin@mail.com");
+                  form.setValue("password", "Admin@1234");
+                }}
+              >
+                Admin
+              </Button>
+            </div>
+          </div>
+
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t" />
