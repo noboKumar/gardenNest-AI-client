@@ -1,0 +1,68 @@
+[
+  {
+    "id": "G001",
+    "title": "Verdant Balcony Retreat",
+    "gardener": "Anika Rahman",
+    "location": "Dhanmondi, Dhaka",
+    "type": "Balcony Garden",
+    "description": "Anika transformed her tiny 8x10 ft balcony into a lush escape with vertical planters, reused containers, and a thriving herb corner. Her passion started during the pandemic, and she now grows 15+ varieties of edible and ornamental plants.",
+    "highlights": ["100% Organic Practices", "Uses Greywater for Irrigation", "Seasonal Blooms: Marigold, Zinnia, Lemongrass", "Bee & Butterfly Friendly Plants"],
+    "quote": "Gardening brought peace into my daily life. Every plant I grow teaches me something about patience and care.",
+    "image": "https://i.ibb.co/KpgJ5BM7/unnamed.jpg"
+  },
+  {
+    "id": "G002",
+    "title": "Rooftop Herb Haven",
+    "gardener": "Nusrat Jahan",
+    "location": "Uttara, Dhaka",
+    "type": "Rooftop Garden",
+    "description": "Nusrat's rooftop herb garden is a culinary paradise. With more than 20 varieties including mint, basil, thyme, and coriander, her green space provides her family with fresh herbs all year round.",
+    "highlights": ["Vertical Herb Towers", "Home Composting System", "Drip Irrigation Setup", "Bird Nesting Boxes"],
+    "quote": "The aroma from my herb garden is therapy in itself.",
+    "image": "https://i.ibb.co/rf3f2f74/culinary-medicinal-rooftop-herb-haven-431161-48344.jpg"
+  },
+  {
+    "id": "G003",
+    "title": "Tiny Jungle Balcony",
+    "gardener": "Rezaul Karim",
+    "location": "Mirpur, Dhaka",
+    "type": "Balcony Garden",
+    "description": "Rezaul turned his small apartment balcony into a jungle escape using hanging pots, climbers, and tropical plants. His space is shaded, cool, and full of life year-round.",
+    "highlights": ["Low Maintenance Shade Plants", "Natural Mosquito Repellents", "Wall Planter Setup", "DIY Rain Catcher"],
+    "quote": "Even in a concrete jungle, nature has a place.",
+    "image": "https://i.ibb.co/Gfwyknkg/goemshoppenorsmallbalcony-2c23d58c80d6437cb78c08e2cf9b2c9e.jpg"
+  },
+  {
+    "id": "G004",
+    "title": "The Vertical Greenscape",
+    "gardener": "Mahmudul Hasan",
+    "location": "Chattogram",
+    "type": "Vertical Garden",
+    "description": "Mahmudul built a vertical greenscape on the side of his home using recycled materials. It houses more than 30 native and exotic species, attracting butterflies and birds.",
+    "highlights": ["Eco-friendly Materials", "Self-Watering Wall Pots", "Native Flowers", "Shade-Tolerant Greens"],
+    "quote": "My garden climbs the wall and brings color to the street.",
+    "image": "https://i.ibb.co/B5CcGVy8/468299490-18040830431232054-48751.jpg"
+  },
+  {
+    "id": "G005",
+    "title": "The Urban Jungle Terrace",
+    "gardener": "Salma Binte Noor",
+    "location": "Barisal",
+    "type": "Terrace Garden",
+    "description": "Salma's terrace is a miniature forest, home to bonsais, dwarf fruit trees, and a serene water feature that helps her meditate and relax after work.",
+    "highlights": ["Potted Fruit Trees", "Terracotta Features", "Bonsai Collection", "Meditation Nook"],
+    "quote": "This is not just a garden—it's my personal retreat.",
+    "image": "https://i.ibb.co/Y7WPq60m/Private-Garden-Paradise-11.jpg"
+  },
+  {
+    "id": "G006",
+    "title": "Community Green Patch",
+    "gardener": "Tania Akter",
+    "location": "Sylhet",
+    "type": "Community Garden",
+    "description": "Tania initiated a community garden project in her neighborhood. Now 15 families share the joy of growing vegetables, herbs, and flowers together.",
+    "highlights": ["Shared Responsibilities", "Children’s Gardening Club", "Seasonal Workshops", "Recycled Raised Beds"],
+    "quote": "We grow together, literally and emotionally.",
+    "image": "https://i.ibb.co/N6nT9tn6/6-CAC3-ED3-3394-4-C50-A8-A7-E2-B6-F04246-F9-2-Large-panorama-dcca1c50dac585e80cbaaba50f22cc20-637541.jpg"
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "E001",
+    "title": "Tree Planting Drive – Gulshan Park",
+    "date": "2025-06-05",
+    "time": "9:00 AM – 12:30 PM",
+    "location": "Gulshan Park, Dhaka",
+    "organizer": "GreenRoots NGO",
+    "highlight": "Free saplings for participants!",
+    "ctaText": "Join the Drive",
+    "status": "Upcoming",
+    "image": "https://i.ibb.co/0RDHMFCS/copy-of-20240127-rajibdhar-2922.jpg"
+  },
+  {
+    "id": "E002",
+    "title": "Urban Gardening Expo 2025",
+    "date": "2025-07-15",
+    "time": "10:00 AM – 6:00 PM",
+    "location": "Bangabandhu International Conference Center",
+    "organizer": "Dhaka Urban Gardeners",
+    "highlight": "Live demos, expert talks, tool stalls",
+    "ctaText": "Get Your Pass",
+    "status": "Upcoming",
+    "image": "https://i.ibb.co/FbQrFZHY/global-retail-trends-feature-area-scaled.jpg"
+  },
+  {
+    "id": "E003",
+    "title": "Green Roof Meetup",
+    "date": "2025-08-10",
+    "time": "4:00 PM – 6:30 PM",
+    "location": "Organic Roof Cafe, Mohammadpur",
+    "organizer": "Green Architecture Forum",
+    "highlight": "Meet architects & gardeners",
+    "ctaText": "Reserve Your Spot",
+    "status": "Upcoming",
+    "image": "https://i.ibb.co/1Yg20sj6/d034c706f1ad67c2f96f406e52bb47f7567ed17e-1260x630.png"
+  },
+  {
+    "id": "E004",
+    "title": "Edible Garden Workshop",
+    "date": "2025-09-02",
+    "time": "11:00 AM – 2:00 PM",
+    "location": "Botanical Garden, Mirpur",
+    "organizer": "GrowDhaka",
+    "highlight": "Learn to grow vegetables in containers",
+    "ctaText": "Sign Up",
+    "status": "Upcoming",
+    "image": "https://i.ibb.co/WNRk94j5/IMG-3447.jpg"
+  },
+  {
+    "id": "E005",
+    "title": "Terrarium Design Contest",
+    "date": "2025-09-22",
+    "time": "3:00 PM – 5:00 PM",
+    "location": "Jatra Biroti Rooftop, Dhaka",
+    "organizer": "MiniWorld Gardens",
+    "highlight": "Win exciting prizes & gift kits",
+    "ctaText": "Join the Contest",
+    "status": "Upcoming",
+    "image": "https://i.ibb.co/dsp9Qdsc/mmexport1599893722271-1c53e9be-a6cd-42f1-a387-2a02af156542.jpg"
+  },
+  {
+    "id": "E006",
+    "title": "Composting 101 Webinar",
+    "date": "2025-10-05",
+    "time": "5:00 PM – 6:30 PM",
+    "location": "Online",
+    "organizer": "EcoDhaka",
+    "highlight": "Live virtual session with composting experts",
+    "ctaText": "Join Online",
+    "status": "Upcoming",
+    "image": "https://snug-harbor.org/wp-content/uploads/2021/04/48942235142_ceb8191def_o-scaled.jpg"
+  }
+]
