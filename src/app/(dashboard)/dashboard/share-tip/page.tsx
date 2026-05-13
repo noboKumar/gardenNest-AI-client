@@ -9,16 +9,19 @@ import * as z from "zod";
 import axios from "axios";
 import moment from "moment";
 import { toast } from "sonner";
-import { 
-  Sprout, 
-  Send, 
-  Image as ImageIcon, 
-  Layers, 
-  BookOpen, 
-  Eye, 
-  User, 
-  Mail 
+import {
+  Sprout,
+  Send,
+  Image as ImageIcon,
+  Layers,
+  BookOpen,
+  Eye,
+  User,
+  Mail,
+  Sparkles,
+  Loader2
 } from "lucide-react";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -56,6 +59,43 @@ export default function ShareTipPage() {
   const { user, role, loading } = useAuth();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [isRefining, setIsRefining] = useState(false);
+
+  const handleMagicRefine = async () => {
+    const currentDescription = form.getValues("description");
+    if (!currentDescription || currentDescription.length < 5) {
+      toast.error("Please write a few words first so I can help you refine it!");
+      return;
+    }
+
+    const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+    if (!apiKey) {
+      toast.error("AI API Key not found. Please add NEXT_PUBLIC_GEMINI_API_KEY to enable this feature.");
+      return;
+    }
+
+    setIsRefining(true);
+    try {
+      const genAI = new GoogleGenerativeAI(apiKey);
+      const model = genAI.getGenerativeModel({
+        model: "gemini-flash-latest",
+      });
+
+      const prompt = `Refine this gardening tip into a professional one: "${currentDescription}"`;
+
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      const refinedText = response.text();
+
+      form.setValue("description", refinedText);
+      toast.success("Tip refined with AI Magic! ✨");
+    } catch (error) {
+      console.error("AI Refine Error:", error);
+      toast.error("AI Magic failed this time. Please try again!");
+    } finally {
+      setIsRefining(false);
+    }
+  };
 
   React.useEffect(() => {
     if (!loading && role === "visitor") {
@@ -249,12 +289,29 @@ export default function ShareTipPage() {
                   name="description"
                   render={({ field }) => (
                     <FormItem className="md:col-span-2">
-                      <FormLabel>Detailed Description</FormLabel>
+                      <div className="flex items-center justify-between">
+                        <FormLabel>Detailed Description</FormLabel>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={handleMagicRefine}
+                          disabled={isRefining}
+                          className="h-8 gap-2 border-green-200 bg-green-50/50 text-green-700 hover:bg-green-100 hover:text-green-800 dark:border-green-900 dark:bg-green-900/20 dark:text-green-400"
+                        >
+                          {isRefining ? (
+                            <Loader2 className="h-3 w-3 animate-spin" />
+                          ) : (
+                            <Sparkles className="h-3 w-3 text-green-600" />
+                          )}
+                          {isRefining ? "Refining..." : "Magic Refine"}
+                        </Button>
+                      </div>
                       <FormControl>
-                        <Textarea 
-                          placeholder="Share your gardening wisdom here..." 
-                          className="min-h-[150px] bg-background resize-none" 
-                          {...field} 
+                        <Textarea
+                          placeholder="Share your gardening wisdom here..."
+                          className="min-h-[150px] bg-background resize-none"
+                          {...field}
                         />
                       </FormControl>
                       <FormMessage />
