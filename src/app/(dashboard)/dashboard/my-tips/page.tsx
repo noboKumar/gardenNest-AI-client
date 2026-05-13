@@ -47,7 +47,7 @@ export default function MyTipsPage() {
 
     const fetchMyTips = async () => {
       try {
-        const response = await axios.post("https://ph-assignment-10-server-pi.vercel.app/myTips", {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/myTips`, {
           email: user.email,
         });
         setTips(response.data);
@@ -63,7 +63,7 @@ export default function MyTipsPage() {
 
   const handleDelete = async (id: string) => {
     try {
-      const response = await axios.delete(`https://ph-assignment-10-server-pi.vercel.app/tips/${id}`);
+      const response = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/tips/${id}`);
       if (response.data.deletedCount) {
         toast.success("Tip deleted successfully");
         setTips(tips.filter(tip => tip._id !== id));

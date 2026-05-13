@@ -36,7 +36,7 @@ const navLinks = [
 ];
 
 export const Navbar = () => {
-  const { user, LogOutUser } = useAuth();
+  const { user, LogOutUser, role } = useAuth();
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
 
@@ -137,6 +137,14 @@ export const Navbar = () => {
                     <span>Dashboard</span>
                   </Link>
                 </DropdownMenuItem>
+                {role === "admin" && (
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard/admin" className="cursor-pointer text-green-600 font-bold">
+                      <LayoutDashboard className="mr-2 h-4 w-4" />
+                      <span>Admin Panel</span>
+                    </Link>
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuItem asChild>
                   <Link href="/dashboard" className="cursor-pointer">
                     <User className="mr-2 h-4 w-4" />

@@ -74,7 +74,7 @@ export default function UpdateTipPage() {
   useEffect(() => {
     const fetchTip = async () => {
       try {
-        const response = await axios.get(`https://ph-assignment-10-server-pi.vercel.app/browseTips/${id}`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/browseTips/${id}`);
         const data = response.data;
         form.reset({
           title: data.title,
@@ -97,7 +97,7 @@ export default function UpdateTipPage() {
   const onSubmit = async (values: TipFormValues) => {
     setIsLoading(true);
     try {
-      const response = await axios.put(`https://ph-assignment-10-server-pi.vercel.app/tips/${id}`, values);
+      const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/tips/${id}`, values);
       if (response.data.modifiedCount || response.data.matchedCount) {
         toast.success("Tip updated successfully!");
         router.push("/dashboard/my-tips");

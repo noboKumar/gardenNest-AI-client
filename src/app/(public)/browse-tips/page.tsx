@@ -59,9 +59,9 @@ export default function BrowseTipsPage() {
         let headers = {};
 
         if (selectedLevel !== "all") {
-          url = `https://ph-assignment-10-server-pi.vercel.app/tips/${selectedLevel}`;
+          url = `${process.env.NEXT_PUBLIC_SERVER_URL}/tips/${selectedLevel}`;
         } else {
-          url = "https://ph-assignment-10-server-pi.vercel.app/sortedTips";
+          url = `${process.env.NEXT_PUBLIC_SERVER_URL}/sortedTips`;
           headers = { "sort-order": sortOrder };
         }
 

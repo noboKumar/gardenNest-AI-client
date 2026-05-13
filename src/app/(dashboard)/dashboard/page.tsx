@@ -45,9 +45,9 @@ export default function MyProfilePage() {
     const fetchStats = async () => {
       try {
         const [allTips, myTips, mostLikedTip] = await Promise.all([
-          axios.get("https://ph-assignment-10-server-pi.vercel.app/browseTips"),
-          axios.post("https://ph-assignment-10-server-pi.vercel.app/myTips", { email: user.email }),
-          axios.post("https://ph-assignment-10-server-pi.vercel.app/myMostLikedTip", { email: user.email })
+          axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/browseTips`),
+          axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/myTips`, { email: user.email }),
+          axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/myMostLikedTip`, { email: user.email })
         ]);
 
         const totalLikesCount = myTips.data.reduce((sum: number, tip: any) => sum + (tip.likedBy?.length || 0), 0);

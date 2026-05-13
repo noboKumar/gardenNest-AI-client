@@ -37,7 +37,7 @@ export default function TipDetailsPage() {
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        const response = await axios.get(`https://ph-assignment-10-server-pi.vercel.app/browseTips/${id}`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/browseTips/${id}`);
         setTip(response.data);
         setLikeCount(response.data.likedBy?.length || 0);
         setIsLiked(response.data.likedBy?.includes(user?.email));
@@ -57,7 +57,7 @@ export default function TipDetailsPage() {
       return;
     }
     try {
-      const response = await axios.patch(`https://ph-assignment-10-server-pi.vercel.app/tips/${id}/like`, {
+      const response = await axios.patch(`${process.env.NEXT_PUBLIC_SERVER_URL}/tips/${id}/like`, {
         email: user.email
       });
       if (response.data.modifiedCount) {

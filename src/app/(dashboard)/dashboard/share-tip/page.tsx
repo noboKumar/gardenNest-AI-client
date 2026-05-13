@@ -81,7 +81,7 @@ export default function ShareTipPage() {
         likedBy: [],
       };
 
-      const response = await axios.post("https://ph-assignment-10-server-pi.vercel.app/tips", payload);
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/tips`, payload);
       if (response.data.acknowledged) {
         toast.success("Your gardening tip has been shared!");
         router.push("/browse-tips");

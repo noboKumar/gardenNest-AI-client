@@ -26,7 +26,7 @@ export const TrendingTips = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://ph-assignment-10-server-pi.vercel.app/trendingTips");
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/trendingTips`);
         setTips(response.data);
       } catch (error) {
         console.error("Error fetching trending tips:", error);

@@ -12,9 +12,12 @@ import {
   User,
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
+import axios from "axios";
 
 interface AuthContextType {
   user: User | null;
+  role: string | null;
+  status: string | null;
   loading: boolean;
   setLoading: (loading: boolean) => void;
   setUser: (user: User | null) => void;
@@ -29,23 +32,42 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [role, setRole] = useState<string | null>(null);
+  const [status, setStatus] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const googleProvider = new GoogleAuthProvider();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        // Sync with backend
+        try {
+          await axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/users`, {
+            name: currentUser.displayName,
+            email: currentUser.email,
+            photoURL: currentUser.photoURL,
+          });
+
+          const roleRes = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/role/${currentUser.email}`);
+          setRole(roleRes.data.role);
+          setStatus(roleRes.data.status);
+        } catch (error) {
+          console.error("Error syncing user with backend:", error);
+        }
+      } else {
+        setRole(null);
+        setStatus(null);
+      }
+      setUser(currentUser);
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
 
   const createUser = (email: string, password: string) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
 
   const updateUser = (userData: { displayName?: string; photoURL?: string }) => {
     if (!auth.currentUser) return Promise.reject("No user logged in");
@@ -71,6 +93,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     createUser,
     updateUser,
     user,
+    role,
+    status,
     loading,
     setLoading,
     setUser,

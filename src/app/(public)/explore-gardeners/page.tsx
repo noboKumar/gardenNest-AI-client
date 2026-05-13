@@ -17,7 +17,7 @@ interface Gardener {
 }
 
 async function getGardeners() {
-  const res = await fetch("https://ph-assignment-10-server-pi.vercel.app/users", { cache: 'no-store' });
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/users`, { cache: 'no-store' });
   if (!res.ok) throw new Error("Failed to fetch gardeners");
   return res.json();
 }
@@ -45,9 +45,9 @@ export default async function ExploreGardenersPage() {
             <CardHeader className="flex flex-col items-center pt-8 pb-4">
               <div className="relative">
                 <Avatar className="w-32 h-32 border-4 border-green-500 p-1 group-hover:scale-105 transition-transform">
-                  <AvatarImage src={gardener.image} alt={gardener.name} className="object-cover" />
+                  <AvatarImage src={gardener.image} alt={gardener.name || "Gardener"} className="object-cover" />
                   <AvatarFallback className="text-2xl font-bold">
-                    {gardener.name.charAt(0)}
+                    {gardener.name?.charAt(0) || "G"}
                   </AvatarFallback>
                 </Avatar>
                 <div className={`absolute bottom-2 right-2 w-5 h-5 rounded-full border-2 border-background ${gardener.status === 'Active' ? 'bg-green-500' : 'bg-gray-400'}`} />
@@ -56,7 +56,7 @@ export default async function ExploreGardenersPage() {
             <CardContent className="text-center space-y-4">
               <div className="space-y-1">
                 <h3 className="text-2xl font-bold group-hover:text-green-600 transition-colors">
-                  {gardener.name}
+                  {gardener.name || "Anonymous Gardener"}
                 </h3>
                 <Badge variant="secondary" className="bg-green-50 dark:bg-green-950/30 text-green-700 dark:text-green-400 border-none">
                   {gardener.specialty}
