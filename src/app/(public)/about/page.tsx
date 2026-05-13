@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Sprout, Target, Heart, Sparkles, ArrowRight, CheckCircle2 } from "lucide-react";
+import { Sprout, Target, Heart, Sparkles, ArrowRight, CheckCircle2, Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
@@ -20,7 +20,7 @@ export default function AboutPage() {
               About <span className="text-green-600">Garden Nest</span>
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed">
-              Welcome to Garden Nest – your community hub for gardening inspiration, tips, and sharing! Whether you’re new to gardening or a seasoned grower, our platform helps you connect, learn, and flourish together.
+              Welcome to Garden Nest – your community hub for gardening inspiration, tips, and sharing! Powered by cutting-edge AI, our platform helps you connect, learn, and flourish together, whether you’re a beginner or a seasoned grower.
             </p>
           </div>
         </div>
@@ -87,7 +87,7 @@ export default function AboutPage() {
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">What We Offer</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <OfferCard 
               title="Gardening Tips" 
               description="Explore practical advice and best practices for all kinds of gardens." 
@@ -102,6 +102,11 @@ export default function AboutPage() {
               title="Interactive Forums" 
               description="Join discussions to ask questions and share your progress." 
               icon={Sparkles}
+            />
+            <OfferCard 
+              title="AI Gardening Assistant" 
+              description="Meet GardenSage, your 24/7 AI chatbot, and use AI to instantly draft and refine your posts." 
+              icon={Bot}
             />
           </div>
         </div>
