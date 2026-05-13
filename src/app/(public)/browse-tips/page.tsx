@@ -3,15 +3,15 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { 
-  Sprout, 
-  Eye, 
-  Filter, 
-  SortAsc, 
-  MessageSquare, 
-  Heart, 
-  Share2, 
-  User, 
+import {
+  Sprout,
+  Eye,
+  Filter,
+  SortAsc,
+  MessageSquare,
+  Heart,
+  Share2,
+  User,
   Search,
   Calendar,
   Layers,
@@ -82,9 +82,9 @@ export default function BrowseTipsPage() {
           url = `${process.env.NEXT_PUBLIC_SERVER_URL}/sortedTips`;
         }
 
-        const response = await axios.get(url, { 
+        const response = await axios.get(url, {
           params,
-          headers: { "sort-order": sortOrder } 
+          headers: { "sort-order": sortOrder }
         });
         setTips(response.data);
       } catch (error) {
@@ -117,11 +117,11 @@ export default function BrowseTipsPage() {
       <div className="sticky top-20 z-30 bg-background/80 backdrop-blur-md py-6 mb-12 border-y flex flex-col lg:flex-row justify-between items-center gap-6 px-6 rounded-2xl shadow-xl border-green-100/50 dark:border-green-900/50">
         <div className="w-full lg:max-w-xs relative group">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-green-600 transition-colors" />
-          <Input 
-            placeholder="Search tips..." 
+          <Input
+            placeholder="Search tips..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 bg-transparent border-none focus-visible:ring-1 focus-visible:ring-green-600/50 rounded-xl"
+            className="pl-10 bg-transparent border-2 border-green-400 dark:border-green-600 focus-visible:ring-1 focus-visible:ring-green-600/50 rounded-xl"
           />
         </div>
 
@@ -207,13 +207,13 @@ export default function BrowseTipsPage() {
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                    
+
                     <div className="absolute top-4 left-4 flex gap-2">
                       <Badge className={cn(
                         "font-bold border-none px-3",
                         tip.level === 'Easy' ? "bg-green-500 text-white" :
-                        tip.level === 'Medium' ? "bg-blue-500 text-white" :
-                        "bg-red-500 text-white"
+                          tip.level === 'Medium' ? "bg-blue-500 text-white" :
+                            "bg-red-500 text-white"
                       )}>
                         {tip.level}
                       </Badge>
