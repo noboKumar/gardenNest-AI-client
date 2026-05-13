@@ -37,9 +37,6 @@ import { Button } from "@/components/ui/button";
 const registerSchema = z.object({
   name: z.string().min(3, { message: "Name must be at least 3 characters" }),
   photoUrl: z.string().url({ message: "Invalid photo URL" }).or(z.string().length(0)),
-  role: z.enum(["visitor", "gardener"]),
-  specialty: z.string().optional(),
-  bio: z.string().optional(),
   email: z.string().email({ message: "Invalid email address" }),
   password: z.string()
     .min(8, { message: "Password must be at least 8 characters" })
@@ -61,15 +58,12 @@ export default function RegisterPage() {
     defaultValues: {
       name: "",
       photoUrl: "",
-      role: "visitor",
-      specialty: "",
-      bio: "",
       email: "",
       password: "",
     },
   });
 
-  const watchRole = form.watch("role");
+
 
   const onSubmit = async (values: RegisterFormValues) => {
     setIsLoading(true);
@@ -84,9 +78,7 @@ export default function RegisterPage() {
         name: values.name,
         email: values.email,
         photoURL: values.photoUrl,
-        role: values.role,
-        specialty: values.specialty,
-        bio: values.bio
+        role: "visitor",
       });
 
       setUser({ ...userData, displayName: values.name, photoURL: values.photoUrl });
@@ -140,71 +132,7 @@ export default function RegisterPage() {
                   )}
                 />
 
-                <FormField
-                  control={form.control}
-                  name="role"
-                  render={({ field }) => (
-                    <FormItem className="md:col-span-2">
-                      <FormLabel>Register As</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger className="h-11">
-                            <div className="flex items-center gap-2">
-                              <UserCheck className="h-4 w-4 text-green-600" />
-                              <SelectValue placeholder="Select a role" />
-                            </div>
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="visitor">Visitor (Can browse & like)</SelectItem>
-                          <SelectItem value="gardener">Gardener (Can post tips)</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
 
-                {watchRole === "gardener" && (
-                  <>
-                    <FormField
-                      control={form.control}
-                      name="specialty"
-                      render={({ field }) => (
-                        <FormItem className="md:col-span-2">
-                          <FormLabel>Specialty</FormLabel>
-                          <FormControl>
-                            <div className="relative">
-                              <Briefcase className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-                              <Input placeholder="e.g., Organic Farming, Bonsai" className="pl-10 h-11" {...field} />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="bio"
-                      render={({ field }) => (
-                        <FormItem className="md:col-span-2">
-                          <FormLabel>Short Bio</FormLabel>
-                          <FormControl>
-                            <div className="relative">
-                              <FileText className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-                              <Textarea
-                                placeholder="Tell us about your gardening experience..."
-                                className="pl-10 min-h-[100px] bg-background"
-                                {...field}
-                              />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </>
-                )}
 
                 <FormField
                   control={form.control}
