@@ -23,7 +23,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Menu, LogOut, User, LayoutDashboard, Home, Search, BookOpen, Info, Mail } from "lucide-react";
+import { Menu, LogOut, User, LayoutDashboard, Home, Search, BookOpen, Info, Mail, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
@@ -116,46 +116,93 @@ export const Navbar = () => {
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-10 w-10 rounded-full border border-green-100 dark:border-green-900 overflow-hidden">
-                  <Avatar className="h-10 w-10">
+                <Button variant="ghost" className="relative h-11 w-11 rounded-full p-0 group focus-visible:ring-0 focus-visible:ring-offset-0">
+                  <Avatar className="h-11 w-11 border-2 border-green-300 dark:border-green-700 group-hover:border-green-500 group-hover:scale-105 transition-all duration-200 shadow-md">
                     <AvatarImage src={user.photoURL || ""} alt={user.displayName || ""} />
-                    <AvatarFallback>{user.displayName?.charAt(0) || "U"}</AvatarFallback>
+                    <AvatarFallback className="bg-gradient-to-br from-green-400 to-emerald-600 text-white font-bold text-base">
+                      {user.displayName?.charAt(0) || "U"}
+                    </AvatarFallback>
                   </Avatar>
+                  <span className="absolute -bottom-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-green-600 ring-2 ring-background shadow">
+                    <ChevronDown className="h-2.5 w-2.5 text-white" />
+                  </span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end" forceMount>
-                <DropdownMenuLabel className="font-normal">
-                  <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">{user.displayName}</p>
-                    <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+
+              <DropdownMenuContent
+                className="w-72 p-0 overflow-hidden border-0 shadow-2xl rounded-2xl"
+                align="end"
+                sideOffset={12}
+                forceMount
+              >
+                {/* Profile Header */}
+                <div className="relative bg-gradient-to-br from-green-500 to-emerald-700 p-5 pb-10">
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-12 w-12 border-2 border-white/60 shadow-lg">
+                      <AvatarImage src={user.photoURL || ""} />
+                      <AvatarFallback className="bg-white/20 text-white font-bold text-lg">
+                        {user.displayName?.charAt(0) || "U"}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-bold text-white truncate">{user.displayName}</p>
+                      <p className="text-xs text-green-100/70 truncate">{user.email}</p>
+                    </div>
                   </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard" className="cursor-pointer">
-                    <LayoutDashboard className="mr-2 h-4 w-4" />
-                    <span>Dashboard</span>
-                  </Link>
-                </DropdownMenuItem>
-                {role === "admin" && (
-                  <DropdownMenuItem asChild>
-                    <Link href="/dashboard/admin" className="cursor-pointer text-green-600 font-bold">
-                      <LayoutDashboard className="mr-2 h-4 w-4" />
-                      <span>Admin Panel</span>
+                  {/* Role Badge */}
+                  <span className={cn(
+                    "absolute bottom-3 right-4 text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full",
+                    role === "admin" ? "bg-purple-500/90 text-white" :
+                    role === "gardener" ? "bg-white/20 text-white backdrop-blur-sm" :
+                    "bg-blue-400/80 text-white"
+                  )}>
+                    {role || "visitor"}
+                  </span>
+                </div>
+
+                {/* Clipped card body */}
+                <div className="bg-background -mt-6 rounded-t-[1.25rem] px-2 pt-2 pb-2 space-y-0.5">
+                  <DropdownMenuItem asChild className="rounded-xl px-3 py-2.5 cursor-pointer group/item">
+                    <Link href="/dashboard" className="flex items-center gap-3">
+                      <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-50 dark:bg-green-950/40 text-green-600 group-hover/item:bg-green-600 group-hover/item:text-white transition-colors">
+                        <LayoutDashboard className="h-4 w-4" />
+                      </span>
+                      <span className="font-medium text-sm">Dashboard</span>
                     </Link>
                   </DropdownMenuItem>
-                )}
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard" className="cursor-pointer">
-                    <User className="mr-2 h-4 w-4" />
-                    <span>Profile</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout} className="text-red-600 focus:text-red-600 cursor-pointer">
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Log out</span>
-                </DropdownMenuItem>
+
+                  <DropdownMenuItem asChild className="rounded-xl px-3 py-2.5 cursor-pointer group/item">
+                    <Link href="/dashboard" className="flex items-center gap-3">
+                      <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 dark:bg-blue-950/40 text-blue-600 group-hover/item:bg-blue-600 group-hover/item:text-white transition-colors">
+                        <User className="h-4 w-4" />
+                      </span>
+                      <span className="font-medium text-sm">My Profile</span>
+                    </Link>
+                  </DropdownMenuItem>
+
+                  {role === "admin" && (
+                    <DropdownMenuItem asChild className="rounded-xl px-3 py-2.5 cursor-pointer group/item">
+                      <Link href="/dashboard/admin" className="flex items-center gap-3">
+                        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-50 dark:bg-purple-950/40 text-purple-600 group-hover/item:bg-purple-600 group-hover/item:text-white transition-colors">
+                          <LayoutDashboard className="h-4 w-4" />
+                        </span>
+                        <span className="font-medium text-sm">Admin Panel</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+
+                  <div className="my-1.5 border-t border-border/60" />
+
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    className="rounded-xl px-3 py-2.5 cursor-pointer group/item focus:bg-red-50 dark:focus:bg-red-950/30"
+                  >
+                    <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-50 dark:bg-red-950/40 text-red-500 group-hover/item:bg-red-500 group-hover/item:text-white transition-colors mr-3">
+                      <LogOut className="h-4 w-4" />
+                    </span>
+                    <span className="font-medium text-sm text-red-600 dark:text-red-400">Log out</span>
+                  </DropdownMenuItem>
+                </div>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
