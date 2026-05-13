@@ -12,10 +12,12 @@ import {
   Heart, 
   Share2, 
   User, 
+  Search,
   Calendar,
   Layers,
   ArrowRight
 } from "lucide-react";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -49,23 +51,41 @@ export default function BrowseTipsPage() {
   const [tips, setTips] = useState<Tip[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedLevel, setSelectedLevel] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [sortOrder, setSortOrder] = useState("new");
+
+  // Debounce logic
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchTerm);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
         let url = "";
-        let headers = {};
+        let params: any = {};
 
-        if (selectedLevel !== "all") {
-          url = `${process.env.NEXT_PUBLIC_SERVER_URL}/tips/${selectedLevel}`;
+        if (debouncedSearch || selectedCategory !== "all" || selectedLevel !== "all") {
+          url = `${process.env.NEXT_PUBLIC_SERVER_URL}/searchTips`;
+          params = {
+            search: debouncedSearch,
+            category: selectedCategory,
+            level: selectedLevel
+          };
         } else {
           url = `${process.env.NEXT_PUBLIC_SERVER_URL}/sortedTips`;
-          headers = { "sort-order": sortOrder };
         }
 
-        const response = await axios.get(url, { headers });
+        const response = await axios.get(url, { 
+          params,
+          headers: { "sort-order": sortOrder } 
+        });
         setTips(response.data);
       } catch (error) {
         console.error("Error fetching tips:", error);
@@ -74,7 +94,7 @@ export default function BrowseTipsPage() {
       }
     };
     fetchData();
-  }, [selectedLevel, sortOrder]);
+  }, [selectedLevel, selectedCategory, debouncedSearch, sortOrder]);
 
   return (
     <div className="container max-w-5xl mx-auto px-4 py-12">
@@ -94,13 +114,23 @@ export default function BrowseTipsPage() {
         </p>
       </motion.div>
 
-      <div className="sticky top-20 z-30 bg-background/80 backdrop-blur-md py-4 mb-8 border-y flex flex-col md:flex-row justify-between items-center gap-4 px-4 rounded-xl shadow-sm">
-        <div className="flex items-center gap-6">
+      <div className="sticky top-20 z-30 bg-background/80 backdrop-blur-md py-6 mb-12 border-y flex flex-col lg:flex-row justify-between items-center gap-6 px-6 rounded-2xl shadow-xl border-green-100/50 dark:border-green-900/50">
+        <div className="w-full lg:max-w-xs relative group">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-green-600 transition-colors" />
+          <Input 
+            placeholder="Search tips..." 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10 bg-transparent border-none focus-visible:ring-1 focus-visible:ring-green-600/50 rounded-xl"
+          />
+        </div>
+
+        <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8">
           <div className="flex items-center gap-2">
             <Filter className="w-4 h-4 text-muted-foreground" />
             <Select value={selectedLevel} onValueChange={setSelectedLevel}>
-              <SelectTrigger className="w-[160px] border-none bg-transparent font-bold focus:ring-0">
-                <SelectValue placeholder="All Levels" />
+              <SelectTrigger className="w-[130px] border-none bg-transparent font-bold focus:ring-0">
+                <SelectValue placeholder="Levels" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Levels</SelectItem>
@@ -111,23 +141,36 @@ export default function BrowseTipsPage() {
             </Select>
           </div>
 
-          <div className="flex items-center gap-2 border-l pl-6">
+          <div className="flex items-center gap-2 border-l pl-4 md:pl-8">
+            <Layers className="w-4 h-4 text-muted-foreground" />
+            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <SelectTrigger className="w-[140px] border-none bg-transparent font-bold focus:ring-0">
+                <SelectValue placeholder="Categories" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Categories</SelectItem>
+                <SelectItem value="Plant Care">Plant Care</SelectItem>
+                <SelectItem value="Composting">Composting</SelectItem>
+                <SelectItem value="Vertical Gardening">Vertical Gardening</SelectItem>
+                <SelectItem value="Garden Bugs">Garden Bugs</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="flex items-center gap-2 border-l pl-4 md:pl-8">
             <SortAsc className="w-4 h-4 text-muted-foreground" />
             <Select value={sortOrder} onValueChange={setSortOrder}>
-              <SelectTrigger className="w-[160px] border-none bg-transparent font-bold focus:ring-0">
-                <SelectValue placeholder="Newest First" />
+              <SelectTrigger className="w-[140px] border-none bg-transparent font-bold focus:ring-0">
+                <SelectValue placeholder="Sort By" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="new">Newest First</SelectItem>
                 <SelectItem value="old">Oldest First</SelectItem>
+                <SelectItem value="likes">Most Liked</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
-        
-        <Badge variant="outline" className="bg-green-50 text-green-700 dark:bg-green-950/30 dark:text-green-400 font-bold border-none">
-          {tips.length} Tips Found
-        </Badge>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

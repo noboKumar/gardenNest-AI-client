@@ -27,6 +27,7 @@ import {
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { DashboardCharts } from "@/components/dashboard/dashboard-charts";
 import { toast } from "sonner";
 
 export default function MyProfilePage() {
@@ -37,6 +38,7 @@ export default function MyProfilePage() {
     totalLikes: 0,
     mostLiked: { title: "", likesCount: 0 },
     latestTip: null as any,
+    allTips: [] as any[],
   });
   const [loading, setLoading] = useState(true);
   const [upgrading, setUpgrading] = useState(false);
@@ -74,6 +76,7 @@ export default function MyProfilePage() {
           totalLikes: totalLikesCount,
           mostLiked: mostLikedTip.data,
           latestTip: sortedTips[0] || null,
+          allTips: allTips.data,
         });
       } catch (error) {
         console.error("Error fetching dashboard stats:", error);
@@ -201,6 +204,15 @@ export default function MyProfilePage() {
           delay={0.4}
         />
       </div>
+
+      {/* Analytics Charts */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.45 }}
+      >
+        <DashboardCharts tips={stats.allTips} />
+      </motion.div>
 
       {/* Latest Tip Section */}
       <motion.div

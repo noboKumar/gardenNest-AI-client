@@ -12,6 +12,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { toast } from "sonner";
+import { TipReviews } from "@/components/tips/tip-reviews";
+import { RelatedTips } from "@/components/tips/related-tips";
 
 interface TipDetails {
   _id: string;
@@ -135,11 +137,39 @@ export default function TipDetailsPage() {
             </Badge>
           </div>
 
-          <div className="prose dark:prose-invert max-w-none text-lg text-muted-foreground leading-relaxed text-center">
-            {tip.description}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+            <div className="space-y-4">
+              <h3 className="text-xl font-bold flex items-center gap-2 border-l-4 border-green-600 pl-3">
+                Overview & Instructions
+              </h3>
+              <p className="text-muted-foreground leading-relaxed">
+                {tip.description}
+              </p>
+            </div>
+            <div className="bg-muted/30 p-6 rounded-2xl space-y-4 h-fit">
+              <h3 className="text-xl font-bold">Quick Specs</h3>
+              <div className="space-y-3">
+                <div className="flex justify-between border-b pb-2">
+                  <span className="text-muted-foreground">Difficulty</span>
+                  <span className="font-bold">{tip.level}</span>
+                </div>
+                <div className="flex justify-between border-b pb-2">
+                  <span className="text-muted-foreground">Plant Type</span>
+                  <span className="font-bold">{tip.type}</span>
+                </div>
+                <div className="flex justify-between border-b pb-2">
+                  <span className="text-muted-foreground">Category</span>
+                  <span className="font-bold">{tip.category}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Status</span>
+                  <Badge variant="outline" className="text-green-600 border-green-200">Verified</Badge>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="flex justify-center pt-8 border-t">
+          <div className="flex justify-center pt-12 border-t">
             <Button
               onClick={handleLike}
               variant={isLiked ? "default" : "outline"}
@@ -153,6 +183,10 @@ export default function TipDetailsPage() {
               {isLiked ? "Already Liked" : "Like this Tip"} ({likeCount})
             </Button>
           </div>
+
+          {/* New Sections */}
+          <TipReviews tipId={tip._id} />
+          <RelatedTips category={tip.category} currentId={tip._id} />
         </div>
       </motion.div>
     </div>
