@@ -60,6 +60,52 @@ export default function ShareTipPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isRefining, setIsRefining] = useState(false);
+  const [isDrafting, setIsDrafting] = useState(false);
+
+  const handleAIInstantDraft = async () => {
+    const title = form.getValues("title");
+    if (!title || title.length < 5) {
+      toast.error("Please enter a descriptive title first (e.g., 'How to grow organic kale')");
+      return;
+    }
+
+    const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+    if (!apiKey) {
+      toast.error("AI API Key not found.");
+      return;
+    }
+
+    setIsDrafting(true);
+    try {
+      const genAI = new GoogleGenerativeAI(apiKey);
+      const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
+
+      const prompt = `Act as a gardening expert. Based on the title "${title}", generate a JSON object with these fields: 
+      "type" (string, e.g. Vegetables), 
+      "level" (Easy, Medium, or Hard), 
+      "category" (Composting, Plant Care, Vertical Gardening, or Garden Bugs), 
+      "description" (detailed paragraph). 
+      Return ONLY the JSON. No markdown formatting.`;
+
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      let text = response.text().replace(/```json|```/g, "").trim();
+      
+      const draft = JSON.parse(text);
+      
+      form.setValue("type", draft.type || "");
+      form.setValue("level", draft.level || "Easy");
+      form.setValue("category", draft.category || "Plant Care");
+      form.setValue("description", draft.description || "");
+      
+      toast.success("AI has prepared a draft for you! ✨");
+    } catch (error) {
+      console.error("AI Draft Error:", error);
+      toast.error("Could not generate draft. Please try again.");
+    } finally {
+      setIsDrafting(false);
+    }
+  };
 
   const handleMagicRefine = async () => {
     const currentDescription = form.getValues("description");
@@ -162,9 +208,26 @@ export default function ShareTipPage() {
                   control={form.control}
                   name="title"
                   render={({ field }) => (
-                    <FormItem className="md:col-span-2">
+                  <FormItem className="md:col-span-2">
+                    <div className="flex items-center justify-between">
                       <FormLabel>Tip Title</FormLabel>
-                      <FormControl>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleAIInstantDraft}
+                        disabled={isDrafting}
+                        className="h-8 gap-2 text-purple-600 hover:text-purple-700 hover:bg-purple-50 dark:text-purple-400 dark:hover:bg-purple-900/20"
+                      >
+                        {isDrafting ? (
+                          <Loader2 className="h-3 w-3 animate-spin" />
+                        ) : (
+                          <Sparkles className="h-3 w-3" />
+                        )}
+                        {isDrafting ? "Drafting..." : "AI Instant Draft"}
+                      </Button>
+                    </div>
+                    <FormControl>
                         <div className="relative">
                           <BookOpen className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                           <Input placeholder="e.g., How to Grow Organic Tomatoes" className="pl-10" {...field} />
