@@ -53,9 +53,16 @@ const tipSchema = z.object({
 type TipFormValues = z.infer<typeof tipSchema>;
 
 export default function ShareTipPage() {
-  const { user } = useAuth();
+  const { user, role, loading } = useAuth();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+
+  React.useEffect(() => {
+    if (!loading && role === "visitor") {
+      router.push("/dashboard");
+      toast.error("Visitors cannot post tips. Please upgrade to Gardener.");
+    }
+  }, [role, loading, router]);
 
   const form = useForm<TipFormValues>({
     resolver: zodResolver(tipSchema),

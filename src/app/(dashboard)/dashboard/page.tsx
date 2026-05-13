@@ -27,9 +27,10 @@ import {
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { toast } from "sonner";
 
 export default function MyProfilePage() {
-  const { user } = useAuth();
+  const { user, role } = useAuth();
   const [stats, setStats] = useState({
     allTipsCount: 0,
     myTipsCount: 0,
@@ -38,6 +39,20 @@ export default function MyProfilePage() {
     latestTip: null as any,
   });
   const [loading, setLoading] = useState(true);
+  const [upgrading, setUpgrading] = useState(false);
+
+  const handleUpgrade = async () => {
+    setUpgrading(true);
+    try {
+      await axios.patch(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/upgrade`, { email: user?.email });
+      toast.success("Congratulations! You are now a Gardener.");
+      window.location.reload(); // Refresh to update role everywhere
+    } catch (error) {
+      toast.error("Failed to upgrade. Please try again.");
+    } finally {
+      setUpgrading(false);
+    }
+  };
 
   useEffect(() => {
     if (!user?.email) return;
@@ -111,13 +126,45 @@ export default function MyProfilePage() {
                   </div>
                 </div>
               </div>
-              <Badge className="bg-green-100 text-green-700 hover:bg-green-200 border-none px-4 py-1.5 mb-2">
-                Active Member
+              <Badge className={cn(
+                "px-4 py-1.5 mb-2 uppercase tracking-widest font-black border-none",
+                role === 'admin' ? "bg-purple-100 text-purple-700" :
+                role === 'gardener' ? "bg-green-100 text-green-700" :
+                "bg-blue-100 text-blue-700"
+              )}>
+                {role}
               </Badge>
             </div>
           </CardContent>
         </Card>
       </motion.div>
+
+      {/* Become a Gardener Promo for Visitors */}
+      {role === "visitor" && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+        >
+          <Card className="border-2 border-dashed border-green-300 dark:border-green-800 bg-green-50/30 dark:bg-green-950/10 overflow-hidden relative">
+            <CardContent className="p-8 flex flex-col md:flex-row items-center gap-8">
+              <div className="p-4 bg-white dark:bg-green-900 rounded-2xl shadow-xl">
+                <Award className="w-16 h-16 text-green-600" />
+              </div>
+              <div className="flex-1 text-center md:text-left space-y-2">
+                <h3 className="text-2xl font-black text-green-700 dark:text-green-500">Become a Gardener!</h3>
+                <p className="text-muted-foreground">Upgrade your account to start sharing your gardening wisdom with the community and unlock all features.</p>
+              </div>
+              <Button 
+                onClick={handleUpgrade} 
+                disabled={upgrading}
+                className="bg-green-600 hover:bg-green-700 text-white font-bold h-12 px-8 rounded-full shadow-lg hover:shadow-green-200 dark:hover:shadow-none transition-all"
+              >
+                {upgrading ? "Upgrading..." : "Apply Now"}
+              </Button>
+            </CardContent>
+          </Card>
+        </motion.div>
+      )}
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

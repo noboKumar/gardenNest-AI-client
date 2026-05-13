@@ -34,8 +34,10 @@ export default function DashboardLayout({
 
   const sidebarLinks = [
     { name: "My Profile", href: "/dashboard", icon: User, exact: true },
-    { name: "My Tips", href: "/dashboard/my-tips", icon: Lightbulb },
-    { name: "Share Tip", href: "/dashboard/share-tip", icon: PlusCircle },
+    ...(role !== "visitor" ? [
+      { name: "My Tips", href: "/dashboard/my-tips", icon: Lightbulb },
+      { name: "Share Tip", href: "/dashboard/share-tip", icon: PlusCircle },
+    ] : []),
     { name: "Community Tips", href: "/dashboard/all-tips", icon: Leaf },
   ];
 
